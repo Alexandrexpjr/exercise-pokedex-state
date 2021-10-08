@@ -13,8 +13,15 @@
 
 .button {
   margin: 10px;
-  background-color: lightgreen;
+  background-color: limegreen;
   padding: 5px 10px;
   font-weight: 700;
-  font-size: 1.2em;
+  border-radius: 5px;
+}
+
+.button.next {
+  background-color: darkorange;
+  width: 200px;
+  margin: 0 auto;
+  margin-top: 20px;
 }

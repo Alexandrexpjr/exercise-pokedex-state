@@ -53,7 +53,7 @@ class Pokedex extends React.Component {
                     ))}
                     <button className="button" onClick={() => this.setType('All')}>All</button>
                 </div>
-                <button className="button" disabled={disabled} onClick={this.nextPoke}>Próximo pokemon</button>
+                <button className="button next" disabled={disabled} onClick={this.nextPoke}>Próximo pokemon</button>
             </div>
         );
     }
