@@ -1,12 +1,13 @@
 import React from 'react';
 import Pokemon from './Pokemon';
+import './Pokedex.css';
 
 class Pokedex extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             currentPokemon: 0,
-            filteredType: 'Fire',
+            filteredType: 'All',
         }
     }
 
@@ -18,6 +19,7 @@ class Pokedex extends React.Component {
 
     setType = (type) => {
         this.setState({
+            currentPokemon: 0,
             filteredType: type
         })
         console.log(this.state)
@@ -25,18 +27,33 @@ class Pokedex extends React.Component {
 
     filterPoke = () => {
         const { pokemons } = this.props;
-        return pokemons.filter(pokemon => pokemon.type === this.state.filteredType)
+        return pokemons.filter(pokemon => {
+            if (this.state.filteredType === 'All') return true;
+            return pokemon.type === this.state.filteredType;
+        })
+       
     }
 
+    getAllTypes = () => {
+        const { pokemons } = this.props;
+        return [...new Set(pokemons.reduce((types, { type }) => [...types, type], []))];
+    }
 
     render() {
         const filteredPokemons = this.filterPoke();
+        const allTypes = this.getAllTypes();
+        const disabled = filteredPokemons.length === 1 ? true : false;
         return (
             <div className="pokedex">
                 <Pokemon key={filteredPokemons[this.state.currentPokemon].id} pokemon = {filteredPokemons[this.state.currentPokemon]}/>
-                <button onClick={this.nextPoke}>Próximo</button>
-                <button onClick={() => this.setType('Psychic')}>Psychic</button>
-                <button onClick={() => this.setType('Fire')}>Fire</button>
+                <div className="buttons">
+
+                    {allTypes.map(type => (
+                        <button className="button" onClick={() => this.setType(type)} key={type}>{type}</button>
+                    ))}
+                    <button className="button" onClick={() => this.setType('All')}>All</button>
+                </div>
+                <button className="button" disabled={disabled} onClick={this.nextPoke}>Próximo pokemon</button>
             </div>
         );
     }
